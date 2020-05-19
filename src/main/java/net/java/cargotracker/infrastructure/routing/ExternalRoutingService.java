@@ -66,7 +66,36 @@ public class ExternalRoutingService implements RoutingService {
         List<TransitPath> transitPaths = graphTraversalResource
                 .queryParam("origin", origin)
                 .queryParam("destination", destination)
-                .request(MediaType.APPLICATION_JSON_TYPE)
+//                .request(MediaType.APPLICATION_XML_TYPE)   // Works
+                .request(MediaType.APPLICATION_JSON_TYPE)    // Doesn't work - but should.
+                // Using:
+                //   MediaType.APPLICATION_JSON_TYPE
+                // Results in:
+                //   Warning: StandardWrapperValve[net.java.cargotracker.application.util.RestConfiguration]:
+                //   Servlet.service() for servlet net.java.cargotracker.application.util.RestConfiguration threw exception
+                //   java.lang.ClassNotFoundException: javax.xml.parsers.ParserConfigurationException 
+                //   not found by org.eclipse.persistence.moxy [228] 
+                // Also causes:
+                //   org.glassfish.jersey.internal.Error
+                //   java.lang.NoClassDefFoundError: Could not initialize class org.eclipse.persistence.jaxb.BeanValidationHelper
+                // Issue:
+                //   javax.xml.parsers.ParserConfigurationException is part of 'rt.jar' in JDK 7 and 8.
+                //   javax.xml.parsers is missing from org.eclipse.persistence.moxy.jar MANIFEST.MF, entry Import-Package
+                //   org.eclipse.persistence.moxy.jar is part of EclipseLink
+                //   EclipseLink jars implicitly included in the project POM under jersey-media-moxy but with scope provided.
+                //   EclipseLink jars included within Glassfish 4.1.2 in folder \glassfish4\glassfish\modules
+                //   See: https://bugs.eclipse.org/bugs/show_bug.cgi?id=463169 
+                // Solution:
+                //   1) Download EclpiseLink 2.6.5 where org.eclipse.persistence.moxy.jar Mainfest.MF has been fixed.
+                //   2) Replace old jars with new jars. 10 in total. See:
+                //      https://stackoverflow.com/questions/22920319/how-to-change-eclipselink-in-glashfish-4-0/22920766
+                //   3) Delete 'glassfish-4\glassfish\domains\domain1\osgi-cache\felix'
+                //   4) Restart server and re-test.
+                // Notes:
+                //   jersey-media-moxy 2.0 uses compile dependency org.eclipse.persistence.moxy 2.5.0-M13.
+                //   org.eclipse.persistence.moxy 2.5.0-M13 MANIFEST.MF is incorrect for execution purposes,
+                //   but okay for compile purposes.
+                //   jersey-media-moxy 2.28 is required for org.eclipse.persistence.moxy-2.6.5 or higher to be included.  
                 .get(new GenericType<List<TransitPath>>() {
                 });
 

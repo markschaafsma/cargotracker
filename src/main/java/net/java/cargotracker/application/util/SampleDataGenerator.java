@@ -54,7 +54,7 @@ public class SampleDataGenerator {
 
     private void unLoadAll() {
         logger.info("Unloading all existing data.");
-        // In order to remove handling events, must remove refrences in cargo.
+        // In order to remove handling events, must remove references in cargo.
         // Dropping cargo first won't work since handling events have references
         // to it.
         // TODO See if there is a better way to do this.
@@ -225,12 +225,13 @@ public class SampleDataGenerator {
 
         entityManager.persist(jkl567);
 
-        // Cargo definition DEF789. This one will remain unrouted.
+        // Cargo definition DEF789. This one will remain un-routed.
         TrackingId trackingId3 = new TrackingId("DEF789");
 
         RouteSpecification routeSpecification3 = new RouteSpecification(
                 SampleLocations.HONGKONG, SampleLocations.MELBOURNE,
-                DateUtil.toDate("2016-11-18"));
+                DateUtil.toDate("2020-11-18"));    // Update date to facilitate testing
+//              DateUtil.toDate("2016-11-18"));
 
         Cargo def789 = new Cargo(trackingId3, routeSpecification3);
         entityManager.persist(def789);
@@ -247,8 +248,8 @@ public class SampleDataGenerator {
                         new Leg(SampleVoyages.NEW_YORK_TO_DALLAS,
                                 SampleLocations.NEWYORK,
                                 SampleLocations.DALLAS,
-                                DateUtil.toDate("2016-10-24"),
-                                DateUtil.toDate("2016-10-25"))
+                        		DateUtil.toDate("2016-10-24"),
+                        		DateUtil.toDate("2016-10-25"))
                 ));
 
         mno456.assignToRoute(itinerary4);

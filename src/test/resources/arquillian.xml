@@ -12,7 +12,7 @@
         </configuration>
     </container>
     <container qualifier="weblogic">
-        <defaultProtocol type="Servlet 3.0" />    
+		<!-- <defaultProtocol type="Servlet 3.0" /> --> <!-- Commented out 3/4/2020 by MSch since it was causing a error --> 
         <configuration>
             <property name="wlHome">/oracle/middleware/wlserver</property>
             <property name="adminUrl">t3://localhost:7001</property>

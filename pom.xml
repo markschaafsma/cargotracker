@@ -63,6 +63,20 @@
             <version>2.0</version>
             <scope>provided</scope>
         </dependency>
+<!--    Scope provided - Hence ExternalRoutingService.java runtime problem is caused by the software version used by the server. -->
+<!--    App requires org.eclipse.persistence.moxy-2.6.5 to run which is included in jersey-media-moxy version 2.28 -->
+<!--    However, a lower version here for compile purposes works -->
+<!--         <dependency> -->
+<!--             <groupId>org.glassfish.jersey.media</groupId> -->
+<!--             <artifactId>jersey-media-moxy</artifactId> -->
+<!--             versions tested while debugging -->
+<!--             None resolved issue since scope provided and container had to be fixed -->
+<!--             <version>2.28</version> -->
+<!--             <version>2.26</version> -->
+<!--             <version>2.18</version> -->
+<!--             <version>2.0</version> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
 
         <!-- The third-party dependencies this application has -->
         <dependency>
@@ -112,8 +126,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
